@@ -17,6 +17,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        //BuildConfig.URL_BASE
         setContent {
             MovieAppQuickieTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
