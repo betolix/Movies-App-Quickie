@@ -14,8 +14,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import dagger.hilt.android.AndroidEntryPoint
 import io.h3llo.movieappquickie.data.networking.service.MethodApi
 import io.h3llo.movieappquickie.ui.theme.MovieAppQuickieTheme
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -32,7 +34,16 @@ class MainActivity : ComponentActivity() {
 
         // CONNECTION TEST
         GlobalScope.launch {
-            methodApi.getUpcomingMovies("2daaecb9ca6189631bfadd5744bf366c")
+            val response = withContext(Dispatchers.IO){
+                methodApi.getUpcomingMovies("2daaecb9ca6189631bfadd5744bf366c")
+            }
+            if (response.isSuccessful) {
+                val dto = response.body()
+                dto?.results?.forEach {
+                    println(it.id.toString() + "title " + it.title)
+                }
+            }
+
         }
 
         setContent {
